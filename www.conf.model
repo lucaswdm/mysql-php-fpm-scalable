@@ -1,0 +1,13 @@
+
+[www]
+listen = "/dev/shm/php-fpm.sock"
+listen.allowed_clients = "127.0.0.1"
+listen.mode = 0666
+user = "data"
+group = "data"
+pm = "static"
+pm.max_children = {CORES64}
+pm.start_servers = {CORES}
+;pm.min_spare_servers = 5
+;pm.max_spare_servers = 35
+slowlog = "/var/log/php-fpm/www-slow.log"
