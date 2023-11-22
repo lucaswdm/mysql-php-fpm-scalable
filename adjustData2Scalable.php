@@ -1,6 +1,14 @@
 <?php 
 
-    $MODEL = file_get_contents('/etc/my.cnf.model');
+    $LOCAL_FILE_MY_CNF_MODEL = '/etc/my.cnf.model';
+
+    if(!is_file($LOCAL_FILE_MY_CNF_MODEL)) {
+        copy("https://raw.githubusercontent.com/lucaswdm/mysql-php-fpm-scalable/main/my.cnf.model", $LOCAL_FILE_MY_CNF_MODEL);
+    }
+
+    if(!is_file($LOCAL_FILE_MY_CNF_MODEL)) { exit('$LOCAL_FILE_MY_CNF_MODEL #404'); }
+
+    $MODEL = file_get_contents($LOCAL_FILE_MY_CNF_MODEL);
 
     $MEMORY = floor(intval(shell_exec('free -m | grep Mem | awk \'{print $2}\'')) / 1024);
 
@@ -28,9 +36,16 @@
 
     #echo $QTDE_CORES . PHP_EOL; exit;
 
+    $PHP_FPM_WWW_CONF_FILE = '/etc/php-fpm.d/www.conf.model';
 
+    
+    if(!is_file($PHP_FPM_WWW_CONF_FILE)) {
+        copy("https://raw.githubusercontent.com/lucaswdm/mysql-php-fpm-scalable/main/www.conf.model", $PHP_FPM_WWW_CONF_FILE);
+    }
 
-    $MODEL_FPM = file_get_contents('/etc/php-fpm.d/www.conf.model');
+    if(!is_file($PHP_FPM_WWW_CONF_FILE)) { exit('$LOCAL_FILE_MY_CNF_MODEL #404'); }
+
+    $MODEL_FPM = file_get_contents($PHP_FPM_WWW_CONF_FILE);
 
     if(!empty($MODEL_FPM))
     {
